@@ -10,7 +10,7 @@ import { DashboardMetricsDto, TransactionAnalyticsDto } from '../common/dto/enti
 
 @ApiTags('Admin - Analytics')
 @ApiBearerAuth('JWT-auth')
-@Controller('admin')
+@Controller('admin/analytics')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)
 export class AdminController {
@@ -23,7 +23,7 @@ export class AdminController {
     return this.analyticsService.getDashboardMetrics();
   }
 
-  @Get('analytics/transactions')
+  @Get('transactions')
   @ApiOperation({ summary: 'Get transaction analytics' })
   @ApiResponse({ status: 200, description: 'Transaction analytics retrieved successfully', type: TransactionAnalyticsDto })
   async getTransactionAnalytics() {

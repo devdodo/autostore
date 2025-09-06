@@ -1,11 +1,16 @@
 import { Body, Controller, Get, Param, Patch, UseGuards, Query } from '@nestjs/common';
+import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { RolesGuard } from '../common/roles.guard';
 import { Roles } from '../common/roles.decorator';
 import { Role } from '../common/roles.enum';
 import { PrismaService } from '../prisma/prisma.service';
 import { BaseResponse } from '../common/base-response';
+import { BaseResponseDto } from '../common/dto/base-response.dto';
+import { DisputeDto } from '../common/dto/entity.dto';
 
+@ApiTags('Admin - Disputes')
+@ApiBearerAuth('JWT-auth')
 @Controller('admin/disputes')
 @UseGuards(JwtAuthGuard, RolesGuard)
 @Roles(Role.ADMIN)

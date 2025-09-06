@@ -21,6 +21,7 @@ export class AuthController {
 
   @Post('register')
   @ApiOperation({ summary: 'Register a new user' })
+  @ApiBody({ type: RegisterDto })
   @ApiResponse({ status: 201, description: 'User registered successfully', type: BaseResponseDto })
   @ApiResponse({ status: 400, description: 'Bad request' })
   async register(@Body() dto: RegisterDto) {
@@ -34,6 +35,7 @@ export class AuthController {
 
   @Post('login')
   @ApiOperation({ summary: 'Login user' })
+  @ApiBody({ type: LoginDto })
   @ApiResponse({ status: 200, description: 'Login successful', type: BaseResponseDto })
   @ApiResponse({ status: 401, description: 'Invalid credentials' })
   async login(@Body() dto: LoginDto) {

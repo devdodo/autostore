@@ -36,20 +36,19 @@ async function bootstrap() {
       },
       'JWT-auth',
     )
-    .addTag('Auth', 'Authentication endpoints')
-    .addTag('Users', 'User management endpoints')
-    .addTag('Products', 'Product catalog endpoints')
-    .addTag('Orders', 'Order management endpoints')
-    .addTag('Cart', 'Shopping cart endpoints')
-    .addTag('Checkout', 'Checkout and payment endpoints')
-    .addTag('Disputes', 'Dispute management endpoints')
-    .addTag('Admin', 'Admin management endpoints')
+    .addTag('Admin - Analytics', 'Admin analytics and reporting')
     .addTag('Admin - Users', 'Admin user management')
     .addTag('Admin - Products', 'Admin product management')
     .addTag('Admin - Orders', 'Admin order management')
     .addTag('Admin - Disputes', 'Admin dispute management')
     .addTag('Admin - Transactions', 'Admin transaction management')
-    .addTag('Admin - Analytics', 'Admin analytics and reporting')
+    .addTag('Auth', 'Authentication endpoints')
+    .addTag('Cart', 'Shopping cart endpoints')
+    .addTag('Checkout', 'Checkout and payment endpoints')
+    .addTag('Disputes', 'Dispute management endpoints')
+    .addTag('Orders', 'Order management endpoints')
+    .addTag('Products', 'Product catalog endpoints')
+    .addTag('Users', 'User management endpoints')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

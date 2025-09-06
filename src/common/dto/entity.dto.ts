@@ -54,6 +54,37 @@ export class ProductDto {
   updatedAt: Date;
 }
 
+export class CartItemDto {
+  @ApiProperty({ description: 'Cart item ID' })
+  id: string;
+
+  @ApiProperty({ description: 'Product ID' })
+  productId: string;
+
+  @ApiProperty({ description: 'Product details', type: ProductDto })
+  product: ProductDto;
+
+  @ApiProperty({ description: 'Quantity' })
+  quantity: number;
+}
+
+export class CartDto {
+  @ApiProperty({ description: 'Cart ID' })
+  id: string;
+
+  @ApiProperty({ description: 'User ID' })
+  userId: string;
+
+  @ApiProperty({ description: 'User details', type: UserDto })
+  user: UserDto;
+
+  @ApiProperty({ description: 'Cart items', type: [CartItemDto] })
+  items: CartItemDto[];
+
+  @ApiProperty({ description: 'Cart last update date' })
+  updatedAt: Date;
+}
+
 export class OrderItemDto {
   @ApiProperty({ description: 'Order item ID' })
   id: string;
