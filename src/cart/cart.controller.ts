@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiBody, ApiParam } 
 import { CartService } from './cart.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { AddItemDto } from './dto/add-item.dto';
+import { UpdateItemDto } from './dto/update-item.dto';
 import { BaseResponseDto } from '../common/dto/base-response.dto';
 import { CartDto } from '../common/dto/entity.dto';
 
@@ -34,13 +35,13 @@ export class CartController {
   @Patch('items/:id')
   @ApiOperation({ summary: 'Update item quantity in cart' })
   @ApiParam({ name: 'id', description: 'Cart item ID' })
-  @ApiBody({ schema: { type: 'object', properties: { quantity: { type: 'number', minimum: 1 } } } })
+  @ApiBody({ type: UpdateItemDto })
   @ApiResponse({ status: 200, description: 'Item quantity updated successfully', type: CartDto })
   @ApiResponse({ status: 400, description: 'Bad request' })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   @ApiResponse({ status: 404, description: 'Cart item not found' })
-  updateItem(@Req() req: any, @Param('id') id: string, @Body('quantity') quantity: number) {
-    return this.cartService.updateItem(req.user.userId, id, quantity);
+  updateItem(@Req() req: any, @Param('id') id: string, @Body() dto: UpdateItemDto) {
+    return this.cartService.updateItem(req.user.userId, id, dto.quantity);
   }
 
   @Delete('items/:id')

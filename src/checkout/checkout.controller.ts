@@ -3,6 +3,7 @@ import { ApiTags, ApiOperation, ApiResponse, ApiBearerAuth, ApiHeader } from '@n
 import { CheckoutService } from './checkout.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { BaseResponseDto } from '../common/dto/base-response.dto';
+import { CheckoutResponseDto } from './dto/checkout-response.dto';
 
 @ApiTags('Checkout')
 @Controller('checkout')
@@ -16,19 +17,17 @@ export class CheckoutController {
   @ApiResponse({ 
     status: 200, 
     description: 'Checkout initiated successfully', 
+    type: BaseResponseDto,
     schema: {
-      type: 'object',
-      properties: {
-        success: { type: 'boolean' },
-        message: { type: 'string' },
-        data: {
+      allOf: [
+        { $ref: '#/components/schemas/BaseResponseDto' },
+        {
           type: 'object',
           properties: {
-            authorization_url: { type: 'string', description: 'Paystack payment URL' },
-            reference: { type: 'string', description: 'Payment reference' }
+            data: { $ref: '#/components/schemas/CheckoutResponseDto' }
           }
         }
-      }
+      ]
     }
   })
   @ApiResponse({ status: 400, description: 'Bad request' })

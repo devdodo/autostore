@@ -4,6 +4,8 @@ import { AuthService } from './auth.service';
 import { UsersService } from '../users/users.service';
 import { LoginDto } from './dto/login.dto';
 import { RegisterDto } from './dto/register.dto';
+import { ForgotPasswordDto } from './dto/forgot-password.dto';
+import { ResetPasswordDto } from './dto/reset-password.dto';
 import { randomUUID } from 'crypto';
 import { PrismaService } from '../prisma/prisma.service';
 import { EmailService } from 'src/email/email.service';
@@ -45,9 +47,9 @@ export class AuthController {
 
   @Post('forgot-password')
   @ApiOperation({ summary: 'Request password reset' })
-  @ApiBody({ schema: { type: 'object', properties: { email: { type: 'string', format: 'email' } } } })
+  @ApiBody({ type: ForgotPasswordDto })
   @ApiResponse({ status: 200, description: 'Reset link sent if email exists', type: BaseResponseDto })
-  async forgot(@Body() body: { email: string }) {
+  async forgot(@Body() body: ForgotPasswordDto) {
     const user = await this.usersService.findByEmail(body.email);
     
     if (!user) return { success: true, message: 'If the email exists, a reset link will be sent' };
@@ -65,18 +67,10 @@ export class AuthController {
 
   @Post('reset-password')
   @ApiOperation({ summary: 'Reset password with token' })
-  @ApiBody({ 
-    schema: { 
-      type: 'object', 
-      properties: { 
-        token: { type: 'string' }, 
-        password: { type: 'string', minLength: 6 } 
-      } 
-    } 
-  })
+  @ApiBody({ type: ResetPasswordDto })
   @ApiResponse({ status: 200, description: 'Password reset successful', type: BaseResponseDto })
   @ApiResponse({ status: 400, description: 'Invalid or expired token' })
-  async reset(@Body() body: { token: string; password: string }) {
+  async reset(@Body() body: ResetPasswordDto) {
     const record = await this.prisma.$transaction((tx) => this.prisma.passwordResetToken.findUnique({ where: { token: body.token } }));
 
     if (!record || record.used || record.expiresAt < new Date()) return { success: false, message: 'Invalid or expired token' };
