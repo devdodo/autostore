@@ -18,7 +18,7 @@ export class CartController {
   @ApiResponse({ status: 200, description: 'Cart retrieved successfully', type: CartDto })
   @ApiResponse({ status: 401, description: 'Unauthorized' })
   get(@Req() req: any) {
-    return this.cartService.getCart(req.user.userId);
+    return this.cartService.getCart(req.user.userId); 
   }
 
   @Post('items')
