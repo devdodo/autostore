@@ -11,7 +11,22 @@ export class AuthService {
   ) {}
 
   async validateUser(email: string, pass: string) {
-    const user = await this.usersService.findByEmail(email);
+    // Validate input
+    if (!email || !pass || typeof email !== 'string' || typeof pass !== 'string') {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    if (email.trim() === '' || pass.trim() === '') {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    // Additional validation for email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email.trim())) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    const user = await this.usersService.findByEmail(email.trim());
     if (!user) throw new UnauthorizedException('Invalid credentials');
     const match = await bcrypt.compare(pass, user.passwordHash);
     if (!match) throw new UnauthorizedException('Invalid credentials');

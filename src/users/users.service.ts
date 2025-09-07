@@ -62,7 +62,26 @@ export class UsersService {
   }
 
   async findByEmail(email: string) {
-    return this.prisma.user.findUnique({ where: { email } });
+    // Validate input
+    if (!email || typeof email !== 'string' || email.trim() === '') {
+      return null;
+    }
+
+    const trimmedEmail = email.trim();
+    
+    // Additional validation for email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(trimmedEmail)) {
+      return null;
+    }
+
+    const result = await ErrorHandlerUtil.handleAsync(async () => {
+      return await this.prisma.user.findUnique({ 
+        where: { email: trimmedEmail } 
+      });
+    }, 'Find user by email');
+
+    return result.success ? result.data : null;
   }
 
   async findPublicById(id: string): Promise<BaseResponse<PublicUser>> {
