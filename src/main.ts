@@ -7,7 +7,9 @@ import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, {
+    logger: process.env.NODE_ENV === 'production' ? ['error', 'warn'] : ['log', 'error', 'warn', 'debug', 'verbose'],
+  });
   app.setGlobalPrefix('api');
   app.useGlobalPipes(
     new ValidationPipe({
@@ -20,43 +22,51 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
 
-  // Swagger configuration
-  const config = new DocumentBuilder()
-    .setTitle('Auto Shop API')
-    .setDescription('Complete API documentation for Auto Shop e-commerce platform')
-    .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'JWT',
-        description: 'Enter JWT token',
-        in: 'header',
-      },
-      'JWT-auth',
-    )
-    .addTag('Admin - Analytics', 'Admin analytics and reporting')
-    .addTag('Admin - Users', 'Admin user management')
-    .addTag('Admin - Products', 'Admin product management')
-    .addTag('Admin - Orders', 'Admin order management')
-    .addTag('Admin - Disputes', 'Admin dispute management')
-    .addTag('Admin - Transactions', 'Admin transaction management')
-    .addTag('Auth', 'Authentication endpoints')
-    .addTag('Cart', 'Shopping cart endpoints')
-    .addTag('Checkout', 'Checkout and payment endpoints')
-    .addTag('Disputes', 'Dispute management endpoints')
-    .addTag('Orders', 'Order management endpoints')
-    .addTag('Products', 'Product catalog endpoints')
-    .addTag('Users', 'User management endpoints')
-    .build();
+  // Swagger configuration - only in development
+  if (process.env.NODE_ENV !== 'production') {
+    const config = new DocumentBuilder()
+      .setTitle('Auto Shop API')
+      .setDescription('Complete API documentation for Auto Shop e-commerce platform')
+      .setVersion('1.0')
+      .addBearerAuth(
+        {
+          type: 'http',
+          scheme: 'bearer',
+          bearerFormat: 'JWT',
+          name: 'JWT',
+          description: 'Enter JWT token',
+          in: 'header',
+        },
+        'JWT-auth',
+      )
+      .addTag('Admin - Analytics', 'Admin analytics and reporting')
+      .addTag('Admin - Users', 'Admin user management')
+      .addTag('Admin - Products', 'Admin product management')
+      .addTag('Admin - Orders', 'Admin order management')
+      .addTag('Admin - Disputes', 'Admin dispute management')
+      .addTag('Admin - Transactions', 'Admin transaction management')
+      .addTag('Auth', 'Authentication endpoints')
+      .addTag('Cart', 'Shopping cart endpoints')
+      .addTag('Checkout', 'Checkout and payment endpoints')
+      .addTag('Disputes', 'Dispute management endpoints')
+      .addTag('Orders', 'Order management endpoints')
+      .addTag('Products', 'Product catalog endpoints')
+      .addTag('Users', 'User management endpoints')
+      .build();
 
-  const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api/docs', app, document, {
-    swaggerOptions: {
-      persistAuthorization: true,
-    },
-  });
+    const document = SwaggerModule.createDocument(app, config, {
+      deepScanRoutes: false,
+      ignoreGlobalPrefix: false,
+    });
+    SwaggerModule.setup('api/docs', app, document, {
+      swaggerOptions: {
+        persistAuthorization: true,
+        docExpansion: 'none',
+        defaultModelsExpandDepth: 1,
+        defaultModelExpandDepth: 1,
+      },
+    });
+  }
 
   // Optional: seed admin via Prisma if needed (disabled by default)
   await app.listen(3000);

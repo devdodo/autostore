@@ -153,34 +153,52 @@ export class AdminAnalyticsService {
     return Number(result._sum.amount || 0);
   }
 
-  private async getRecentOrders(limit = 10) {
+  private async getRecentOrders(limit = 5) {
     return this.prisma.order.findMany({
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: {
+      select: {
+        id: true,
+        total: true,
+        status: true,
+        createdAt: true,
         user: { select: { id: true, fullName: true, email: true } },
-        items: { include: { product: { select: { title: true, sku: true } } } }
+        items: { 
+          take: 3,
+          select: { 
+            quantity: true, 
+            price: true,
+            product: { select: { title: true, sku: true } } 
+          } 
+        }
       }
     });
   }
 
-  private async getRecentDisputes(limit = 10) {
+  private async getRecentDisputes(limit = 5) {
     return this.prisma.dispute.findMany({
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: {
+      select: {
+        id: true,
+        title: true,
+        status: true,
+        createdAt: true,
         user: { select: { id: true, fullName: true, email: true } },
         order: { select: { id: true, total: true, status: true } }
       }
     });
   }
 
-  private async getTopProducts(limit = 10) {
+  private async getTopProducts(limit = 5) {
     return this.prisma.product.findMany({
       take: limit,
       orderBy: { createdAt: 'desc' },
-      include: {
-        _count: { select: { orderItems: true } }
+      select: {
+        id: true,
+        title: true,
+        price: true,
+        sku: true
       }
     });
   }
