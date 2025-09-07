@@ -5,12 +5,16 @@ import { UsersService } from './users/users.service';
 import { ResponseInterceptor } from './common/response.interceptor';
 import { AllExceptionsFilter } from './common/all-exceptions.filter';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { NestExpressApplication } from '@nestjs/platform-express';
+import { join } from 'path';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     logger: process.env.NODE_ENV === 'production' ? ['error', 'warn'] : ['log', 'error', 'warn', 'debug', 'verbose'],
   });
-  app.setGlobalPrefix('api');
+  app.setGlobalPrefix('api', {
+    exclude: ['/'],
+  });
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -22,8 +26,12 @@ async function bootstrap() {
   app.useGlobalInterceptors(new ResponseInterceptor());
   app.useGlobalFilters(new AllExceptionsFilter());
 
+  // Serve static files for favicon requests
+  app.useStaticAssets(join(__dirname, '..', 'public'));
+
   // Swagger configuration - only in development
-  if (process.env.NODE_ENV !== 'production') {
+  // if (process.env.NODE_ENV !== 'production') {
+  if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') {
     const config = new DocumentBuilder()
       .setTitle('Auto Shop API')
       .setDescription('Complete API documentation for Auto Shop e-commerce platform')
