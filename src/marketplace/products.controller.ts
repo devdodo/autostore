@@ -48,7 +48,7 @@ export class ProductsController {
   @Get('search')
   @ApiOperation({ summary: 'Search products' })
   @ApiResponse({ status: 200, description: 'Search results retrieved successfully', type: [ProductDto] })
-  @ApiQuery({ name: 'q', required: true, description: 'Search query' })
+  @ApiQuery({ name: 'q', required: false, description: 'Search query' })
   @ApiQuery({ name: 'make', required: false, description: 'Filter by make' })
   @ApiQuery({ name: 'model', required: false, description: 'Filter by model' })
   @ApiQuery({ name: 'year', required: false, description: 'Filter by year' })
@@ -57,7 +57,7 @@ export class ProductsController {
   @ApiQuery({ name: 'limit', required: false, description: 'Number of items to return' })
   @ApiQuery({ name: 'offset', required: false, description: 'Number of items to skip' })
   search(
-    @Query('q') query: string,
+    @Query('q') query?: string,
     @Query('make') make?: string,
     @Query('model') model?: string,
     @Query('year') year?: string,

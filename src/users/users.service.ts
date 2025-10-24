@@ -15,12 +15,20 @@ export class UsersService {
   async seedAdminIfMissing(): Promise<void> {
     const admin = await this.prisma.user.findFirst({ where: { roles: { has: Role.ADMIN } } });
     if (!admin) {
-      await this.create({
+      console.log('🌱 Seeding admin user...');
+      const result = await this.create({
         email: 'admin@example.com',
         password: 'Admin123!@#',
         fullName: 'Admin User',
         roles: [Role.ADMIN],
       });
+      if (result.success) {
+        console.log('✅ Admin user seeded successfully');
+      } else {
+        console.log('❌ Failed to seed admin user:', result.message);
+      }
+    } else {
+      console.log('👤 Admin user already exists');
     }
   }
 
@@ -39,8 +47,20 @@ export class UsersService {
       
       // Ensure roles array contains valid Role enum values
       const validRoles = dto.roles && dto.roles.length > 0 
-        ? dto.roles.filter(role => Object.values(Role).includes(role))
+        ? dto.roles.map(role => {
+            // Handle both uppercase and lowercase role inputs
+            const upperRole = role.toUpperCase();
+            if (upperRole === 'ADMIN') return Role.ADMIN;
+            if (upperRole === 'CUSTOMER') return Role.CUSTOMER;
+            return null;
+          }).filter(role => role !== null)
         : [Role.CUSTOMER];
+      
+      console.log('🔍 Role processing:', {
+        input: dto.roles,
+        validRoles,
+        enumValues: Object.values(Role)
+      });
       
       const user = await this.prisma.user.create({
         data: {

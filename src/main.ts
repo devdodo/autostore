@@ -29,9 +29,8 @@ async function bootstrap() {
   // Serve static files for favicon requests
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
-  // Swagger configuration - only in development
-  // if (process.env.NODE_ENV !== 'production') {
-  if (process.env.NODE_ENV == 'production' || process.env.NODE_ENV == 'development') {
+  // Swagger configuration - enable in development and when NODE_ENV is not set
+  if (process.env.NODE_ENV !== 'production') {
     const config = new DocumentBuilder()
       .setTitle('Auto Shop API')
       .setDescription('Complete API documentation for Auto Shop e-commerce platform')
@@ -76,7 +75,11 @@ async function bootstrap() {
     });
   }
 
-  // Optional: seed admin via Prisma if needed (disabled by default)
+  // Seed admin user if none exists
+  console.log('🔍 Checking for admin user...');
+  const usersService = app.get(UsersService);
+  await usersService.seedAdminIfMissing();
+
   await app.listen(3000);
   console.log('🚀 Application is running on: http://localhost:3000');
   console.log('📚 Swagger documentation: http://localhost:3000/api/docs');

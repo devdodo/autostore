@@ -97,7 +97,7 @@ export class AdminTransactionsController {
 
   @Get('search')
   async search(
-    @Query('q') query: string,
+    @Query('q') query?: string,
     @Query('status') status?: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
@@ -105,13 +105,15 @@ export class AdminTransactionsController {
     @Query('offset') offset?: string,
   ): Promise<BaseResponse<any>> {
     try {
-      const where: any = {
-        OR: [
+      const where: any = {};
+
+      if (query) {
+        where.OR = [
           { reference: { contains: query, mode: 'insensitive' } },
           { user: { fullName: { contains: query, mode: 'insensitive' } } },
           { user: { email: { contains: query, mode: 'insensitive' } } }
-        ]
-      };
+        ];
+      }
 
       if (status) where.status = status;
       

@@ -98,7 +98,7 @@ export class AdminUsersController {
 
   @Get('search')
   async search(
-    @Query('q') query: string,
+    @Query('q') query?: string,
     @Query('role') role?: string,
     @Query('startDate') startDate?: string,
     @Query('endDate') endDate?: string,
@@ -106,12 +106,14 @@ export class AdminUsersController {
     @Query('offset') offset?: string,
   ): Promise<BaseResponse<any>> {
     try {
-      const where: any = {
-        OR: [
+      const where: any = {};
+
+      if (query) {
+        where.OR = [
           { fullName: { contains: query, mode: 'insensitive' } },
           { email: { contains: query, mode: 'insensitive' } }
-        ]
-      };
+        ];
+      }
 
       if (role) {
         where.roles = { has: role };

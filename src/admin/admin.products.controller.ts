@@ -54,7 +54,7 @@ export class AdminProductsController {
 
   @Get('search')
   @ApiOperation({ summary: 'Search products' })
-  @ApiQuery({ name: 'q', required: true, description: 'Search query' })
+  @ApiQuery({ name: 'q', required: false, description: 'Search query' })
   @ApiQuery({ name: 'make', required: false, description: 'Filter by product make' })
   @ApiQuery({ name: 'model', required: false, description: 'Filter by product model' })
   @ApiQuery({ name: 'year', required: false, description: 'Filter by product year' })
@@ -64,7 +64,7 @@ export class AdminProductsController {
   @ApiQuery({ name: 'offset', required: false, description: 'Number of items to skip' })
   @ApiResponse({ status: 200, description: 'Search results retrieved successfully', type: [ProductDto] })
   search(
-    @Query('q') query: string,
+    @Query('q') query?: string,
     @Query('make') make?: string,
     @Query('model') model?: string,
     @Query('year') year?: string,
