@@ -29,8 +29,8 @@ async function bootstrap() {
   // Serve static files for favicon requests
   app.useStaticAssets(join(__dirname, '..', 'public'));
 
-  // Swagger configuration - enable in development and when NODE_ENV is not set
-  if (process.env.NODE_ENV !== 'production') {
+  // Swagger configuration - enable in all environments
+  {
     const config = new DocumentBuilder()
       .setTitle('Auto Shop API')
       .setDescription('Complete API documentation for Auto Shop e-commerce platform')
