@@ -1,0 +1,16 @@
+-- AlterTable
+ALTER TABLE "public"."Product" ADD COLUMN     "bodyType" TEXT,
+ADD COLUMN     "brand" TEXT,
+ADD COLUMN     "carLocation" TEXT,
+ADD COLUMN     "carName" TEXT,
+ADD COLUMN     "carPrice" TEXT,
+ADD COLUMN     "colour" TEXT,
+ADD COLUMN     "engine" TEXT,
+ADD COLUMN     "engineDisplacement" TEXT,
+ADD COLUMN     "fuelCapacity" TEXT,
+ADD COLUMN     "fuelType" TEXT,
+ADD COLUMN     "horsepower" TEXT,
+ADD COLUMN     "images" TEXT[] DEFAULT ARRAY[]::TEXT[],
+ADD COLUMN     "mileage" TEXT,
+ADD COLUMN     "rpm" TEXT,
+ADD COLUMN     "transmission" TEXT;

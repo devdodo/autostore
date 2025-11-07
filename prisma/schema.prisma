@@ -40,18 +40,33 @@ model User {
 }
 
 model Product {
-  id          String       @id @default(uuid())
-  title       String
-  description String
-  price       Decimal      @db.Decimal(10, 2)
-  sku         String       @unique
-  make        String?
-  model       String?
-  year        Int?
-  createdAt   DateTime     @default(now())
-  updatedAt   DateTime     @updatedAt
-  orderItems  OrderItem[]
-  cartItems   CartItem[]
+  id                String       @id @default(uuid())
+  title             String
+  description       String
+  price             Decimal      @db.Decimal(10, 2)
+  sku               String       @unique
+  make              String?
+  model             String?
+  year              Int?
+  brand             String?
+  carName           String?
+  bodyType          String?
+  engine            String?
+  horsepower        String?
+  fuelType          String?
+  fuelCapacity      String?
+  engineDisplacement String?
+  rpm               String?
+  carPrice          String?
+  carLocation       String?
+  transmission      String?
+  colour            String?
+  mileage           String?
+  images            String[]     @default([])
+  createdAt         DateTime     @default(now())
+  updatedAt         DateTime     @updatedAt
+  orderItems        OrderItem[]
+  cartItems         CartItem[]
 }
 
 model Order {

@@ -1,4 +1,4 @@
-import { IsInt, IsNumber, IsOptional, IsString, Min } from 'class-validator';
+import { IsInt, IsNumber, IsOptional, IsString, Min, IsArray } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateProductDto {
@@ -33,6 +33,82 @@ export class CreateProductDto {
   @IsOptional()
   @IsInt()
   year?: number;
+
+  @ApiProperty({ description: 'Product brand', example: 'Toyota', required: false })
+  @IsOptional()
+  @IsString()
+  brand?: string;
+
+  @ApiProperty({ description: 'Car name', example: '2025 LAMBORGHINI URUS', required: false })
+  @IsOptional()
+  @IsString()
+  carName?: string;
+
+  @ApiProperty({ description: 'Body type', example: 'SUV', required: false })
+  @IsOptional()
+  @IsString()
+  bodyType?: string;
+
+  @ApiProperty({ description: 'Engine', example: 'V10', required: false })
+  @IsOptional()
+  @IsString()
+  engine?: string;
+
+  @ApiProperty({ description: 'Horsepower', example: '631', required: false })
+  @IsOptional()
+  @IsString()
+  horsepower?: string;
+
+  @ApiProperty({ description: 'Fuel type', example: 'Petrol', required: false })
+  @IsOptional()
+  @IsString()
+  fuelType?: string;
+
+  @ApiProperty({ description: 'Fuel capacity', example: '1.5', required: false })
+  @IsOptional()
+  @IsString()
+  fuelCapacity?: string;
+
+  @ApiProperty({ description: 'Engine displacement', example: '5.2', required: false })
+  @IsOptional()
+  @IsString()
+  engineDisplacement?: string;
+
+  @ApiProperty({ description: 'RPM', example: '8,000', required: false })
+  @IsOptional()
+  @IsString()
+  rpm?: string;
+
+  @ApiProperty({ description: 'Car price', example: '15000', required: false })
+  @IsOptional()
+  @IsString()
+  carPrice?: string;
+
+  @ApiProperty({ description: 'Car location', example: 'Lagos', required: false })
+  @IsOptional()
+  @IsString()
+  carLocation?: string;
+
+  @ApiProperty({ description: 'Transmission', example: 'Automatic', required: false })
+  @IsOptional()
+  @IsString()
+  transmission?: string;
+
+  @ApiProperty({ description: 'Colour', example: 'Silver', required: false })
+  @IsOptional()
+  @IsString()
+  colour?: string;
+
+  @ApiProperty({ description: 'Mileage', example: '43193', required: false })
+  @IsOptional()
+  @IsString()
+  mileage?: string;
+
+  @ApiProperty({ description: 'Product images', example: ['https://...'], required: false, type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  images?: string[];
 }
 
 export class UpdateProductDto {
@@ -71,6 +147,82 @@ export class UpdateProductDto {
   @IsOptional()
   @IsInt()
   year?: number;
+
+  @ApiProperty({ description: 'Product brand', example: 'Toyota', required: false })
+  @IsOptional()
+  @IsString()
+  brand?: string;
+
+  @ApiProperty({ description: 'Car name', example: '2025 LAMBORGHINI URUS', required: false })
+  @IsOptional()
+  @IsString()
+  carName?: string;
+
+  @ApiProperty({ description: 'Body type', example: 'SUV', required: false })
+  @IsOptional()
+  @IsString()
+  bodyType?: string;
+
+  @ApiProperty({ description: 'Engine', example: 'V10', required: false })
+  @IsOptional()
+  @IsString()
+  engine?: string;
+
+  @ApiProperty({ description: 'Horsepower', example: '631', required: false })
+  @IsOptional()
+  @IsString()
+  horsepower?: string;
+
+  @ApiProperty({ description: 'Fuel type', example: 'Petrol', required: false })
+  @IsOptional()
+  @IsString()
+  fuelType?: string;
+
+  @ApiProperty({ description: 'Fuel capacity', example: '1.5', required: false })
+  @IsOptional()
+  @IsString()
+  fuelCapacity?: string;
+
+  @ApiProperty({ description: 'Engine displacement', example: '5.2', required: false })
+  @IsOptional()
+  @IsString()
+  engineDisplacement?: string;
+
+  @ApiProperty({ description: 'RPM', example: '8,000', required: false })
+  @IsOptional()
+  @IsString()
+  rpm?: string;
+
+  @ApiProperty({ description: 'Car price', example: '15000', required: false })
+  @IsOptional()
+  @IsString()
+  carPrice?: string;
+
+  @ApiProperty({ description: 'Car location', example: 'Lagos', required: false })
+  @IsOptional()
+  @IsString()
+  carLocation?: string;
+
+  @ApiProperty({ description: 'Transmission', example: 'Automatic', required: false })
+  @IsOptional()
+  @IsString()
+  transmission?: string;
+
+  @ApiProperty({ description: 'Colour', example: 'Silver', required: false })
+  @IsOptional()
+  @IsString()
+  colour?: string;
+
+  @ApiProperty({ description: 'Mileage', example: '43193', required: false })
+  @IsOptional()
+  @IsString()
+  mileage?: string;
+
+  @ApiProperty({ description: 'Product images', example: ['https://...'], required: false, type: [String] })
+  @IsOptional()
+  @IsArray()
+  @IsString({ each: true })
+  images?: string[];
 }
 
 

@@ -47,6 +47,51 @@ export class ProductDto {
   @ApiProperty({ description: 'Product year', required: false })
   year?: number;
 
+  @ApiProperty({ description: 'Product brand', required: false })
+  brand?: string;
+
+  @ApiProperty({ description: 'Car name', required: false })
+  carName?: string;
+
+  @ApiProperty({ description: 'Body type', required: false })
+  bodyType?: string;
+
+  @ApiProperty({ description: 'Engine', required: false })
+  engine?: string;
+
+  @ApiProperty({ description: 'Horsepower', required: false })
+  horsepower?: string;
+
+  @ApiProperty({ description: 'Fuel type', required: false })
+  fuelType?: string;
+
+  @ApiProperty({ description: 'Fuel capacity', required: false })
+  fuelCapacity?: string;
+
+  @ApiProperty({ description: 'Engine displacement', required: false })
+  engineDisplacement?: string;
+
+  @ApiProperty({ description: 'RPM', required: false })
+  rpm?: string;
+
+  @ApiProperty({ description: 'Car price', required: false })
+  carPrice?: string;
+
+  @ApiProperty({ description: 'Car location', required: false })
+  carLocation?: string;
+
+  @ApiProperty({ description: 'Transmission', required: false })
+  transmission?: string;
+
+  @ApiProperty({ description: 'Colour', required: false })
+  colour?: string;
+
+  @ApiProperty({ description: 'Mileage', required: false })
+  mileage?: string;
+
+  @ApiProperty({ description: 'Product images', type: [String], required: false })
+  images?: string[];
+
   @ApiProperty({ description: 'Product creation date' })
   createdAt: Date;
 

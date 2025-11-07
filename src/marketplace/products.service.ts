@@ -12,6 +12,23 @@ export interface Product {
   make?: string;
   model?: string;
   year?: number;
+  brand?: string;
+  carName?: string;
+  bodyType?: string;
+  engine?: string;
+  horsepower?: string;
+  fuelType?: string;
+  fuelCapacity?: string;
+  engineDisplacement?: string;
+  rpm?: string;
+  carPrice?: string;
+  carLocation?: string;
+  transmission?: string;
+  colour?: string;
+  mileage?: string;
+  images?: string[];
+  createdAt: Date;
+  updatedAt: Date;
 }
 
 @Injectable()
@@ -100,7 +117,17 @@ export class ProductsService {
   async create(dto: CreateProductDto): Promise<BaseResponse<any>> {
     try {
       const created = await this.prisma.product.create({ data: dto as any });
-      return { success: true, message: 'Product created', data: created };
+      const allProducts = await this.prisma.product.findMany({
+        orderBy: { createdAt: 'desc' }
+      });
+      return { 
+        success: true, 
+        message: 'Product created', 
+        data: {
+          product: created,
+          allProducts: allProducts
+        }
+      };
     } catch (error: any) {
       return { success: false, message: error?.message || 'Failed to create product', error };
     }
